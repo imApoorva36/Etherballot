@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # Ether Ballot
+=======
+# EtherBallot
+>>>>>>> dabe33f (Updated README)
 
 EtherBallot is centered around voting mechanisms, utilizing Solidity for smart contract implementation to ensure a secure and transparent electoral process.
 
