@@ -1,7 +1,5 @@
 # Ether Ballot
 
-This project is part of IEEE Envision at NITK
-
 EtherBallot is centered around voting mechanisms, utilizing Solidity for smart contract implementation to ensure a secure and transparent electoral process.
 
 ## How to run this App
