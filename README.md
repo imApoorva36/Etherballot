@@ -1,8 +1,13 @@
-# React + Vite
+# Ether Ballot
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is part of IEEE Envision at NITK
 
-Currently, two official plugins are available:
+EtherBallot is centered around voting mechanisms, utilizing Solidity for smart contract implementation to ensure a secure and transparent electoral process.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## How to run this App
+
+- Clone the repo and cd into the project directory
+
+- Run `npm install` to install the dependencies
+
+- Run `npx hardhat compile` to compile the smart contracts
