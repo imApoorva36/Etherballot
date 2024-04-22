@@ -36,6 +36,42 @@
       "artifacts": [
         "Lock"
       ]
+    },
+    "/home/shanjiv/ieee/Etherballot/contracts/Test.sol": {
+      "lastModificationDate": 1713770478725,
+      "contentHash": "56b4f15aedd25a7b25729838219e0d54",
+      "sourceName": "contracts/Test.sol",
+      "solcConfig": {
+        "version": "0.8.24",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.24"
+      ],
+      "artifacts": [
+        "Test"
+      ]
     }
   }
 }

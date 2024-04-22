@@ -1,11 +1,29 @@
 import React from 'react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './navbar.css'
 import { Link } from 'react-router-dom';
 
 export default function Navbar() {
 
-  const [signedIn, setSignedIn] = useState(false);
+  const [isConnected, setIsConnected] = useState();
+
+  const connectMetaMask = async () => {
+    let provider;
+    if (window.ethereum) {
+      provider = window.ethereum;
+      try {
+        await provider.request({method: 'eth_requestAccounts'});
+        setIsConnected(true);
+      }
+      catch (e) {
+        console.log(e);
+      }
+    }
+  }
+
+  useEffect(()=> {
+    connectMetaMask();
+  },[]);
 
   return (
     <>
@@ -14,14 +32,12 @@ export default function Navbar() {
             <nav className="nav-elements">
               <ul>
                 {
-                  signedIn ? 
+                  isConnected ? 
                   <>
-                    <li><Link to="profile">Profile</Link></li>
-                    <li><Link to="sign-out">Sign Out</Link></li>
+                  <li><Link to="dashboard">Dashboard</Link></li>
                   </> : 
                   <>
-                  <li><Link to="sign-in">Sign In</Link></li>
-                  <li><Link to="register">Register</Link></li>
+                  <li onClick={connectMetaMask}>Connect Wallet</li>
                   </>
                 }
               
