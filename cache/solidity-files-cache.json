@@ -1,9 +1,45 @@
 {
   "_format": "hh-sol-cache-2",
   "files": {
-    "/home/shanjiv/ieee/Etherballot/contracts/Lock.sol": {
-      "lastModificationDate": 1713423209266,
-      "contentHash": "dacf0d5cb5b45dc83086de5bc1c26c2c",
+    "D:\\AHAN\\COLLEGE\\CLUBS\\IEEE Student Membership\\Etherballot\\contracts\\etherballot.sol": {
+      "lastModificationDate": 1713852255121,
+      "contentHash": "667c92c2782d63aad3e891a5cbccbecf",
+      "sourceName": "contracts/etherballot.sol",
+      "solcConfig": {
+        "version": "0.8.24",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.3"
+      ],
+      "artifacts": [
+        "EtherBallot"
+      ]
+    },
+    "D:\\AHAN\\COLLEGE\\CLUBS\\IEEE Student Membership\\Etherballot\\contracts\\Lock.sol": {
+      "lastModificationDate": 1713852157781,
+      "contentHash": "ce4a7cc2127b2615ebfb28472322ae97",
       "sourceName": "contracts/Lock.sol",
       "solcConfig": {
         "version": "0.8.24",
