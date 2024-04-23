@@ -1,0 +1,31 @@
+.db-wrapper {
+    border: 3px solid #14274E;
+    display: flex;
+    height: 100%;
+}
+
+.sidebar {
+    background-color: #f1f6f9;
+    width: 20%;
+}
+
+.sidebar ul{
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    cursor: pointer;
+}
+
+.sidebar li{
+    list-style: none;
+    text-decoration: none;
+    font-size: 24px;
+}
+
+.main {
+    padding: 10px;
+}
+
+.details {
+    font-size: 24px;
+}
