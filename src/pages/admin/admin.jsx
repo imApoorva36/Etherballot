@@ -13,10 +13,27 @@ import {
 import { Input } from "@/components/ui/input"
 import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { DateTimePicker } from '@/components/ui/date-time-picker/date-time-picker';
+
+const dateTimeObjectSchema = z.object({
+  calendar: z.object({
+    identifier: z.string(),
+  }),
+  era: z.string(),
+  year: z.number(),
+  month: z.number(),
+  day: z.number(),
+  hour: z.number(),
+  minute: z.number(),
+  second: z.number(),
+  millisecond: z.number(),
+});
 
 const formSchema = z.object({
   electionTitle: z.string(),
   candidates: z.string(),
+  startDate: dateTimeObjectSchema,
+  endDate: dateTimeObjectSchema,
 })
 
 export default function Admin() {
@@ -69,6 +86,46 @@ export default function Admin() {
                         <FormControl>
                           <Input placeholder="Enter candidates seperated by commas" {...field} />
                         </FormControl>
+                      </FormItem>
+                    )
+                  }
+                }
+              />
+              <FormField 
+                control={form.control}
+                name="startDate"
+                render = {
+                  ({field}) => {
+                    return(
+                      <FormItem>
+                        <FormLabel className="text-2xl">Start Date and Time</FormLabel>
+                        <FormControl>
+                          <DateTimePicker 
+                          value={field.value}
+                          onChange={date => field.onChange(date)}
+                          granularity={"minute"} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )
+                  }
+                }
+              />
+              <FormField 
+                control={form.control}
+                name="endDate"
+                render = {
+                  ({field}) => {
+                    return(
+                      <FormItem>
+                        <FormLabel className="text-2xl">End Date and Time</FormLabel>
+                        <FormControl>
+                          <DateTimePicker 
+                          value={field.value}
+                          onChange={date => field.onChange(date)}
+                          granularity={"minute"} />
+                        </FormControl>
+                        <FormMessage />
                       </FormItem>
                     )
                   }
