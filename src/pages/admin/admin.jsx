@@ -131,7 +131,7 @@ export default function Admin() {
                   }
                 }
               />
-              <Button type="submit" className="w-1/2">Submit</Button>
+              <Button type="submit" className="w-1/2">Create Election</Button>
             </form>
           </Form>
         </div>
