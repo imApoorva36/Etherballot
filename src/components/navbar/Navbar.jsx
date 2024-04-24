@@ -32,7 +32,7 @@ export default function Navbar() {
           <div> 
             <img src={logo} alt="EtherBallot Logo" />
           </div>
-          <div className='text-4xl'>
+          <div className='text-4xl font-mono'>
             EtherBallot
           </div>
         </div>
