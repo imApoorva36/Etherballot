@@ -3,7 +3,7 @@ import './index.css'
 import './App.css'
 import Navbar from './components/navbar/Navbar'
 import {Route, Routes} from 'react-router-dom'
-import SignIn from './pages/signin/signin'
+import Admin from './pages/admin/admin'
 
 function App() {
 
@@ -13,7 +13,7 @@ function App() {
     <>
       <Navbar />
       <Routes>
-        <Route path="/sign-in" element={<SignIn />} />
+        <Route path="/admin" element={<Admin/>} />
       </Routes>
     </>
   )
