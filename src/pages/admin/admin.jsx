@@ -4,15 +4,20 @@ import { Button } from '@/components/ui/button'
 import React from 'react'
 import { useState } from 'react'
 import { DateTimePicker } from '@/components/ui/date-time-picker/date-time-picker'
+import { validate } from '@/scripts/formValidation'
 
 export default function Admin() {
 
   const [electionTitle, setElectionTitle] = useState('')
-  const [startTime, setStartTime] = useState({})
-  const [endTime, setEndTime] = useState({})
+  const [startTime, setStartTime] = useState()
+  const [endTime, setEndTime] = useState()
   const [candidates, setCandidates] = useState([])
+  const [FormObj, setFormObj] = useState({})
+  const [Errors, setErrors] = useState({})
 
-  const SubmitHandler = (e) => {
+
+
+  const SubmitHandler = async (e) => {
     e.preventDefault();
     const formObj = {
       electionTitle: electionTitle,
@@ -21,7 +26,13 @@ export default function Admin() {
       candidates: candidates,
     }
 
-    console.log(formObj)
+    const newErrors = await validate(formObj)
+    setErrors(newErrors)
+
+    if (newErrors.errorFree == true){
+      setFormObj(formObj)
+      console.log(formObj)
+    }
   }
 
   const KeyHandler = (e) => {
@@ -49,7 +60,7 @@ export default function Admin() {
             <div className="electionTitle flex flex-col gap-2">
             <Label className="text-2xl">Election Title</Label>
             <Input type="text" id="electionTitle" value={electionTitle} placeholder="Enter election title" onChange={(e) => {setElectionTitle(e.target.value)}} />
-            
+            <Label className="text-red-700">{Errors.validate?.electionTitle}</Label>
             </div>
             <div className="electionCandidates">
               <Label className="text-2xl">Candidates</Label>
@@ -57,6 +68,7 @@ export default function Admin() {
                 (candidates.length > 0 ) ? "Enter another candidate name and press enter" :
                 "Enter a candidate name and press enter"
               } />
+              <Label className="text-red-700">{Errors.validate?.candidates}</Label>
             </div>
             <div className="electionStartTime">
               <Label className="text-2xl">Start Date</Label>
@@ -66,6 +78,7 @@ export default function Admin() {
                 }
               } granularity={"minute"}/>
             </div>
+            <Label className="text-red-700">{Errors.date?.toString()}</Label>
             <div className="electionEndTime">
               <Label className="text-2xl">End Time</Label>
               <DateTimePicker id="endTime" onChange={
@@ -73,6 +86,7 @@ export default function Admin() {
                   setEndTime(obj)
                 }
               } granularity={"minute"}/>
+              <Label className="text-red-700">{Errors.date?.toString()}</Label>
             </div>
             <Button type="submit">Create an election</Button>
           </form>
