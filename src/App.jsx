@@ -1,21 +1,21 @@
+import { Button } from './components/ui/button'
+import './index.css'
 import './App.css'
-import Navbar from './components/navbar/navbar'
+import Navbar from './components/navbar/Navbar'
 import {Route, Routes} from 'react-router-dom'
+import Admin from './pages/admin/admin'
 
 function App() {
+
   {document.title = "EtherBallot"}
 
   return (
-    <div className="wrapper">
+    <>
       <Navbar />
       <Routes>
-        <Route path="/" element={<div>Landing Page</div>} />
-        <Route path="/sign-in" element={<div>Sign In</div>} />
-        <Route path="/register" element={<div>Register</div>} />
-        <Route path="/profile" element={<div>Profile</div>} />
-        <Route path="/sign-out" element={<div>Sign Out</div>} />
+        <Route path="/admin" element={<Admin/>} />
       </Routes>
-    </div>
+    </>
   )
 }
 

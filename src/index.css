@@ -1,0 +1,89 @@
+@tailwind base;
+  @tailwind components;
+  @tailwind utilities;
+
+  /* @layer base {
+    :root  {
+      --background: 247 100% 95%;
+      --foreground: 247 5% 0%;
+      --card: 247 50% 90%;
+      --card-foreground: 247 5% 10%;
+      --popover: 247 100% 95%;
+      --popover-foreground: 247 100% 0%;
+      --primary: 247 90% 58%;
+      --primary-foreground: 0 0% 100%;
+      --secondary: 247 30% 70%;
+      --secondary-foreground: 0 0% 0%;
+      --muted: 209 30% 85%;
+      --muted-foreground: 247 5% 35%;
+      --accent: 209 30% 80%;
+      --accent-foreground: 247 5% 10%;
+      --destructive: 0 100% 30%;
+      --destructive-foreground: 247 5% 90%;
+      --border: 247 30% 50%;
+      --input: 247 30% 18%;
+      --ring: 247 90% 58%;
+      --radius: 0.5rem;
+    }
+    .dark  {
+      --background: 247 50% 5%;
+      --foreground: 247 5% 90%;
+      --card: 247 50% 0%;
+      --card-foreground: 247 5% 90%;
+      --popover: 247 50% 5%;
+      --popover-foreground: 247 5% 90%;
+      --primary: 247 90% 58%;
+      --primary-foreground: 0 0% 100%;
+      --secondary: 247 30% 10%;
+      --secondary-foreground: 0 0% 100%;
+      --muted: 209 30% 15%;
+      --muted-foreground: 247 5% 60%;
+      --accent: 209 30% 15%;
+      --accent-foreground: 247 5% 90%;
+      --destructive: 0 100% 30%;
+      --destructive-foreground: 247 5% 90%;
+      --border: 247 30% 18%;
+      --input: 247 30% 18%;
+      --ring: 247 90% 58%;
+      --radius: 0.5rem;
+    }
+  } */
+
+  @layer base {
+
+    html {
+      @apply font-noto;
+    }
+
+    :root  {
+      --background: 247 50% 5%;
+      --foreground: 247 5% 90%;
+      --card: 247 50% 0%;
+      --card-foreground: 247 5% 90%;
+      --popover: 247 50% 5%;
+      --popover-foreground: 247 5% 90%;
+      --primary: 247 90% 58%;
+      --primary-foreground: 0 0% 100%;
+      --secondary: 247 30% 10%;
+      --secondary-foreground: 0 0% 100%;
+      --muted: 209 30% 15%;
+      --muted-foreground: 247 5% 60%;
+      --accent: 209 30% 15%;
+      --accent-foreground: 247 5% 90%;
+      --destructive: 0 100% 30%;
+      --destructive-foreground: 247 5% 90%;
+      --border: 247 30% 18%;
+      --input: 247 30% 18%;
+      --ring: 247 90% 58%;
+      --radius: 0.5rem;
+    }
+  }
+
+  @layer base {
+    * {
+      @apply border-border;
+    }
+    body {
+      @apply bg-background text-foreground;
+    }
+  }
