@@ -2,30 +2,35 @@ import React, { useEffect } from 'react'
 import { Button } from '../ui/button'
 import { useState } from 'react'
 import logo from '../../assets/logo.svg'
+import { AlertDestructive } from './alert'
 
 export default function Navbar() {
 
-    const [isConnected, setIsConnected] = useState(false);
-    const [isSignedIn, setIsSignedIn] = useState(false );
+    const [isConnected, setIsConnected] = useState();
+    const [isSignedIn, setIsSignedIn] = useState();
+    const [error, setError] = useState(false);
 
     const connectMetaMask = async () => {
         let provider;
         if (window.ethereum) {
           provider = window.ethereum;
           try {
-            const accounts = await provider.request({ method: 'eth_requestAccounts' });
-            console.log('Accounts:', accounts);
-            setIsSignedIn(accounts.length > 0);
+            await provider.request({method: 'eth_requestAccounts'});
             setIsConnected(true);
           }
           catch (e) {
             console.log(e);
           }
+        }else {
+          setError(true);
         }
       }
-    const SignIn = () => {
-      connectMetaMask();
-    };
+
+
+     
+    useEffect(() => {
+        connectMetaMask();
+    },[]);
 
   return (
     <div className="flex border-b px-10 py-5 justify-between items-center">
@@ -45,7 +50,7 @@ export default function Navbar() {
                 </>
                 :
                 <>
-                    <Button onClick={SignIn}>Connect Wallet</Button> {/* change once database is set  */}
+                    <Button >Connect Wallet</Button>
                 </>
             }
             {
@@ -55,10 +60,18 @@ export default function Navbar() {
                 </>
                 :
                 <>
-                    <Button onClick={SignIn}>Sign In / Register</Button>
+                    <Button>Sign In / Register</Button>
                 </>
             }
+
         </div>
+        {error && (
+                <div className="flex justify-center items-center absolute inset-0">
+                    <div className="bg-red p-4 rounded-lg shadow-lg">
+                        <AlertDestructive />
+                    </div>
+                </div>
+            )}
     </div>
   )
 }
