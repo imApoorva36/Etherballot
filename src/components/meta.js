@@ -8,7 +8,7 @@ function web3_check_metamask() {
         return true;
     }
 }        
-async function web3_metamask_login() {
+export async function web3_metamask_login() {
           if ( web3_check_metamask() ) {
               console.log('Initate Login Process');
               const provider = new ethers.providers.Web3Provider(window.ethereum);                    
