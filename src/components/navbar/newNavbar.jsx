@@ -5,15 +5,17 @@ import logo from '../../assets/logo.svg'
 
 export default function Navbar() {
 
-    const [isConnected, setIsConnected] = useState();
-    const [isSignedIn, setIsSignedIn] = useState();
+    const [isConnected, setIsConnected] = useState(false);
+    const [isSignedIn, setIsSignedIn] = useState(false );
 
     const connectMetaMask = async () => {
         let provider;
         if (window.ethereum) {
           provider = window.ethereum;
           try {
-            await provider.request({method: 'eth_requestAccounts'});
+            const accounts = await provider.request({ method: 'eth_requestAccounts' });
+            console.log('Accounts:', accounts);
+            setIsSignedIn(accounts.length > 0);
             setIsConnected(true);
           }
           catch (e) {
@@ -21,10 +23,9 @@ export default function Navbar() {
           }
         }
       }
-
-    useEffect(() => {
-        connectMetaMask();
-    },[]);
+    const SignIn = () => {
+      connectMetaMask();
+    };
 
   return (
     <div className="flex border-b px-10 py-5 justify-between items-center">
@@ -44,7 +45,7 @@ export default function Navbar() {
                 </>
                 :
                 <>
-                    <Button>Connect Wallet</Button>
+                    <Button onClick={SignIn}>Connect Wallet</Button> {/* change once database is set  */}
                 </>
             }
             {
@@ -54,7 +55,7 @@ export default function Navbar() {
                 </>
                 :
                 <>
-                    <Button>Sign In / Register</Button>
+                    <Button onClick={SignIn}>Sign In / Register</Button>
                 </>
             }
         </div>
