@@ -2,11 +2,13 @@ import React, { useEffect } from 'react'
 import { Button } from '../ui/button'
 import { useState } from 'react'
 import logo from '../../assets/logo.svg'
+import { AlertDestructive } from './alert'
 
 export default function Navbar() {
 
     const [isConnected, setIsConnected] = useState();
     const [isSignedIn, setIsSignedIn] = useState();
+    const [error, setError] = useState(false);
 
     const connectMetaMask = async () => {
         let provider;
@@ -19,9 +21,13 @@ export default function Navbar() {
           catch (e) {
             console.log(e);
           }
+        }else {
+          setError(true);
         }
       }
 
+
+     
     useEffect(() => {
         connectMetaMask();
     },[]);
@@ -44,7 +50,7 @@ export default function Navbar() {
                 </>
                 :
                 <>
-                    <Button>Connect Wallet</Button>
+                    <Button >Connect Wallet</Button>
                 </>
             }
             {
@@ -57,7 +63,15 @@ export default function Navbar() {
                     <Button>Sign In / Register</Button>
                 </>
             }
+
         </div>
+        {error && (
+                <div className="flex justify-center items-center absolute inset-0">
+                    <div className="bg-red p-4 rounded-lg shadow-lg">
+                        <AlertDestructive />
+                    </div>
+                </div>
+            )}
     </div>
   )
 }
