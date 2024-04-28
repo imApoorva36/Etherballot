@@ -1,0 +1,94 @@
+{
+    "elections" : [
+        {
+            "electionTitle": "National Election",
+            "candidates": ["Shaun"],
+            "startTime" : {
+                "calendar" : {
+                    "identifier": "gregory"
+                },
+                "day" : 29,
+                "month" : 4,
+                "year" : 2024,
+                "era" : "AD",
+                "hour" : 17,
+                "minute" : 19,
+                "millisecond" : 0,
+                "second": 0
+            },
+            "endTime" : {
+                "calendar" : {
+                    "identifier": "gregory"
+                },
+                "day" : 30,
+                "month" : 4,
+                "year" : 2024,
+                "era" : "AD",
+                "hour" : 17,
+                "minute" : 19,
+                "millisecond" : 0,
+                "second": 0   
+            }
+        },
+        {
+            "electionTitle": "District Election",
+            "candidates": ["Shaun"],
+            "startTime" : {
+                "calendar" : {
+                    "identifier": "gregory"
+                },
+                "day" : 29,
+                "month" : 4,
+                "year" : 2024,
+                "era" : "AD",
+                "hour" : 17,
+                "minute" : 19,
+                "millisecond" : 0,
+                "second": 0
+            },
+            "endTime" : {
+                "calendar" : {
+                    "identifier": "gregory"
+                },
+                "day" : 30,
+                "month" : 4,
+                "year" : 2024,
+                "era" : "AD",
+                "hour" : 17,
+                "minute" : 19,
+                "millisecond" : 0,
+                "second": 0   
+            }
+        },
+        {
+            "electionTitle": "State Election",
+            "candidates": ["Shaun"],
+            "startTime" : {
+                "calendar" : {
+                    "identifier": "gregory"
+                },
+                "day" : 29,
+                "month" : 4,
+                "year" : 2024,
+                "era" : "AD",
+                "hour" : 17,
+                "minute" : 19,
+                "millisecond" : 0,
+                "second": 0
+            },
+            "endTime" : {
+                "calendar" : {
+                    "identifier": "gregory"
+                },
+                "day" : 30,
+                "month" : 4,
+                "year" : 2024,
+                "era" : "AD",
+                "hour" : 17,
+                "minute" : 19,
+                "millisecond" : 0,
+                "second": 0   
+            }
+        }
+    ]
+}
