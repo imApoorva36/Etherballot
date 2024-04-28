@@ -7,8 +7,6 @@ import userContext from '@/scripts/userContext'
 
 export default function Navbar() {
 
-    const [isConnected, setIsConnected] = useState();
-    const [isSignedIn, setIsSignedIn] = useState();
     const [error, setError] = useState(false);
     const userState = useContext(userContext)
 
