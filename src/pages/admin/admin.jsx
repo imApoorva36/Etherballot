@@ -74,7 +74,15 @@ export default function Admin() {
               <Label className="text-2xl">Start Date</Label>
               <DateTimePicker id="startTime" onChange={
                 (obj) => {
-                  setStartTime(obj)
+                  const newTime = {
+                    "day" : obj.day,
+                    "month" : obj.month,
+                    "year" : obj.year,
+                    "hour" : obj.hour,
+                    "minute": obj.minute
+                  }
+
+                  setStartTime(newTime)
                 }
               } granularity={"minute"}/>
             </div>
@@ -83,7 +91,15 @@ export default function Admin() {
               <Label className="text-2xl">End Time</Label>
               <DateTimePicker id="endTime" onChange={
                 (obj) => {
-                  setEndTime(obj)
+                  const newTime = {
+                    "day" : obj.day,
+                    "month" : obj.month,
+                    "year" : obj.year,
+                    "hour" : obj.hour,
+                    "minute": obj.minute
+                  }
+
+                  setEndTime(newTime)
                 }
               } granularity={"minute"}/>
               <Label className="text-red-700">{Errors.date?.toString()}</Label>

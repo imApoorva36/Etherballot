@@ -32,18 +32,18 @@ export default function Elections() {
         <div className='grid grid-cols-3 gap-8 w-full px-20 py-5'>
             {
               elections.map((election, index) => (
-                <Card key={index}>
+                <Card key={index} className="m-10">
                   <CardHeader>
-                    <CardTitle>{election.electionTitle}</CardTitle>
+                    <CardTitle className="text-3xl">{election.electionTitle}</CardTitle>
                   </CardHeader>
                   <CardContent className='flex flex-col gap-4'>
-                    <div className='flex flex-col gap-3'>
-                      <Label>Start Date: {election.startTime.day} / {election.startTime.month} / {election.startTime.year}</Label>
-                      <Label>Start Time: {election.startTime.hour} : {election.startTime.minute}</Label>
+                    <div className='flex flex-col'>
+                      <Label className="text-2xl">Starts at {election.startTime.day}/{election.startTime.month}/{election.startTime.year}</Label>
+                      <Label className="text-xl">{election.startTime.hour} hrs : {election.startTime.minute} mins</Label>
                     </div>
-                    <div className='flex flex-col gap-3'>
-                      <Label>End Date: {election.endTime.day} / {election.endTime.month} / {election.endTime.year}</Label>
-                      <Label>End Time: {election.endTime.hour} : {election.endTime.minute}</Label>
+                    <div className='flex flex-col'>
+                      <Label className="text-2xl">Ends at {election.endTime.day}/{election.endTime.month}/{election.endTime.year}</Label>
+                      <Label className="text-xl">{election.endTime.hour} hrs : {election.endTime.minute} mins</Label>
                     </div>  
                   </CardContent>
                   <CardFooter>
