@@ -4,6 +4,7 @@ import './App.css'
 import Navbar from './components/navbar/Navbar'
 import {Route, Routes} from 'react-router-dom'
 import Admin from './pages/admin/admin'
+import Elections from './pages/elections/Elections'
 
 function App() {
 
@@ -14,6 +15,7 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/admin" element={<Admin/>} />
+        <Route path="/elections" element={<Elections/>} />
       </Routes>
     </>
   )

@@ -4,30 +4,18 @@ import * as yup from "yup"
 let userSchema = yup.object({
     electionTitle: yup.string().required("Election title is required"),
     startTime: yup.object().shape({
-        calendar: yup.object({
-            identifier: yup.string(),
-        }),
-        era: yup.string(),
         year: yup.number(),
         month: yup.number(),
         day: yup.number(),
         hour: yup.number(),
         minute: yup.number(),
-        second: yup.number(),
-        millisecond: yup.number(),
     }).required("Select a start date"),
     endTime: yup.object().shape({
-        calendar: yup.object({
-            identifier: yup.string(),
-        }),
-        era: yup.string(),
         year: yup.number(),
         month: yup.number(),
         day: yup.number(),
         hour: yup.number(),
         minute: yup.number(),
-        second: yup.number(),
-        millisecond: yup.number(),
     }).required("Select an End Date"),
     candidates: yup.array().of(yup.string()).min(1, "Enter atleast one candidate"),
 })
@@ -37,20 +25,21 @@ function checkDate(formObj) {
         throw new Error("Times are required")
     }
 
-    if (formObj.startTime.year > formObj.endTime.year) {
-        throw new Error("Start Time cannot be after End Time")
+    const startTime = new Date(formObj.startTime.year,formObj.startTime.month-1,formObj.startTime.day,formObj.startTime.hour,formObj.startTime.minute)
+    const endTime = new Date(formObj.endTime.year,formObj.endTime.month-1,formObj.endTime.day,formObj.endTime.hour,formObj.endTime.minute)
+    const date = new Date()
+
+    console.log("Start Time " + startTime)
+        console.log("End time " + endTime)
+        console.log("Curr Date " + date)
+
+    if (startTime > endTime) {
+        
+        throw new Error("Start time cannot be after End Time")
     }
-    else if (formObj.startTime.month > formObj.endTime.month) {
-        throw new Error("Start Time cannot be after End Time")
-    }
-    else if (formObj.startTime.day > formObj.endTime.day) {
-        throw new Error("Start Time cannot be after End Time")
-    }
-    else if (formObj.startTime.hour > formObj.endTime.hour) {
-        throw new Error("Start Time cannot be after End Time")
-    }
-    else if (formObj.startTime.minute > formObj.endTime.minute) {
-        throw new Error("Start Time cannot be after End Time")
+
+    if ((startTime < date) || (endTime < date)) {
+        throw new Error("One of the time is before the current time")
     }
 }
 
