@@ -28,7 +28,8 @@ contract etherballot {
 
     mapping(uint256 => ElectionInstance) public elections;      //Mapping of all elections
 
-    address[] public uniqueVoters;         //Array of all the voters(address) on the platform
+    address[] public uniqueVoters;                  //Array of all the voters(address) on the platform
+    mapping(address => string) public voterNameAddress;    //Mapping of Address mapped to name
 
     event ElectionCreated(uint256 indexed id, uint256 startTime, uint256 stopTime);
     event VoteCast(uint256 indexed electionId, address indexed voter, uint256 candidateIndex);
@@ -73,10 +74,11 @@ contract etherballot {
         return false;
     }
 
-    //Adding voters to array of registered voters
-    function addToUniqueVoters(address _voter) external onlyOwner {
+    //Adding voters to array and mapping of registered voters
+    function addToUniqueVoters(address _voter,string memory _name) external onlyOwner {
         require(!isVoter(_voter), "Voter already present in the unique voters list");
         uniqueVoters.push(_voter);
+        voterNameAddress[_voter]=_name;
         emit VoterAdded(_voter);
     }
 
