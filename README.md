@@ -9,3 +9,7 @@ EtherBallot is centered around voting mechanisms, utilizing Solidity for smart c
 - Run `npm install` to install the dependencies
 
 - Run `npx hardhat compile` to compile the smart contracts
+
+- Run `npx hardhat run scripts/deploy.js` to deploy the smart contracts
+
+- Run `npx hardhat clean` to clean the cache and start over

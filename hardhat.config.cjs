@@ -11,5 +11,3 @@ module.exports = {
     },
   },
 };
-
-//d557d868c971c3f5e5f6c0710b50f56c60212cc83be3cdcd7e7f76e09f549311
