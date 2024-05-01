@@ -74,15 +74,9 @@ export default function Admin() {
               <Label className="text-2xl">Start Date</Label>
               <DateTimePicker id="startTime" onChange={
                 (obj) => {
-                  const newTime = {
-                    "day" : obj.day,
-                    "month" : obj.month,
-                    "year" : obj.year,
-                    "hour" : obj.hour,
-                    "minute": obj.minute
-                  }
-
-                  setStartTime(newTime)
+                  const newTime = new Date(obj.year,obj.month-1,obj.day,obj.hour,obj.minute)
+                  const newTimeEpoch = newTime.getTime()
+                  setStartTime(newTimeEpoch)
                 }
               } granularity={"minute"}/>
             </div>
@@ -91,15 +85,9 @@ export default function Admin() {
               <Label className="text-2xl">End Time</Label>
               <DateTimePicker id="endTime" onChange={
                 (obj) => {
-                  const newTime = {
-                    "day" : obj.day,
-                    "month" : obj.month,
-                    "year" : obj.year,
-                    "hour" : obj.hour,
-                    "minute": obj.minute
-                  }
-
-                  setEndTime(newTime)
+                  const newTime = new Date(obj.year,obj.month-1,obj.day,obj.hour,obj.minute)
+                  const newTimeEpoch = newTime.getTime()
+                  setEndTime(newTimeEpoch)
                 }
               } granularity={"minute"}/>
               <Label className="text-red-700">{Errors.date?.toString()}</Label>

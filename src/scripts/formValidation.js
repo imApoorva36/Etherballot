@@ -25,20 +25,19 @@ function checkDate(formObj) {
         throw new Error("Times are required")
     }
 
-    const startTime = new Date(formObj.startTime.year,formObj.startTime.month-1,formObj.startTime.day,formObj.startTime.hour,formObj.startTime.minute)
-    const endTime = new Date(formObj.endTime.year,formObj.endTime.month-1,formObj.endTime.day,formObj.endTime.hour,formObj.endTime.minute)
+
     const date = new Date()
 
-    console.log("Start Time " + startTime)
-        console.log("End time " + endTime)
-        console.log("Curr Date " + date)
+    console.log("Start Time " + formObj.startTime)
+    console.log("End time " + formObj.endTime)
+    console.log("Curr Date " + date.getTime())
 
-    if (startTime > endTime) {
+    if (formObj.startTime > formObj.endTime) {
         
         throw new Error("Start time cannot be after End Time")
     }
 
-    if ((startTime < date) || (endTime < date)) {
+    if ((formObj.startTime < date.getTime()) && (formObj.endTime < date.getTime())) {
         throw new Error("One of the time is before the current time")
     }
 }
