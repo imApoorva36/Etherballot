@@ -28,8 +28,7 @@ contract etherballot {
 
     mapping(uint256 => ElectionInstance) public elections;      //Mapping of all elections
 
-    address[] public uniqueVoters;                  //Array of all the voters(address) on the platform
-    mapping(address => string) public voterNameAddress;    //Mapping of Address mapped to name
+    mapping(address => string) public voterNameAddress;         //Mapping of Address to name
 
     event ElectionCreated(uint256 indexed id, uint256 startTime, uint256 stopTime);
     event VoteCast(uint256 indexed electionId, address indexed voter, uint256 candidateIndex);
@@ -65,25 +64,22 @@ contract etherballot {
     }
 
     //Checking whether voter is registered on platform
+    //If the key(address of voter) is not present in the mapping it will return the length of a default string which is zero
     function isVoter(address _voter) internal view returns (bool) {
-        for (uint256 i = 0; i < uniqueVoters.length; i++) {
-            if (uniqueVoters[i] == _voter) {
-                return true;
-            }
-        }
-        return false;
+        return bytes(voterNameAddress[_voter]).length != 0;
     }
 
-    //Adding voters to array and mapping of registered voters
-    function addToUniqueVoters(address _voter,string memory _name) external onlyOwner {
-        require(!isVoter(_voter), "Voter already present in the unique voters list");
-        uniqueVoters.push(_voter);
+    //Adding voters to the mapping of registered voters
+    function addToUniqueVoters(address _voter, string memory _name) external onlyOwner {
+        require(!isVoter(_voter), "Voter already present in the unique voters mapping");
         voterNameAddress[_voter]=_name;
         emit VoterAdded(_voter);
     }
 
     //Voting function
     function vote(uint256 _electionId, string memory _voterName, uint256 _candidateIndex) external payable {
+        require(_electionId <= electionCounter, "Election Index out of bounds");
+        require(_candidateIndex < elections[_electionId].candidates.length, "Candidate Index out of bounds");
         require(isVoter(msg.sender), "You are not allowed to vote");    
         require(block.timestamp >= elections[_electionId].startTime && block.timestamp <= elections[_electionId].stopTime, "Voting is not allowed at this time");
         require(!elections[_electionId].voters[msg.sender], "You have already voted in this election");
@@ -95,5 +91,19 @@ contract etherballot {
         elections[_electionId].voterDetails[msg.sender] = newVoter;
 
         emit VoteCast(_electionId, msg.sender, _candidateIndex);
+    }
+
+    //Fetching name associated with the voter
+    function getName(address _voter) public view returns (string memory) {
+        return voterNameAddress[_voter];
+    }
+
+    //Fetching all elections
+    function getAllElections() public view returns (uint256[3][] memory) {
+        uint256[3][] memory allElections;
+        for (uint256 i = 0; i < electionCounter; i++) {
+            allElections[i] = [elections[i].id, elections[i].startTime, elections[i].stopTime];
+        }
+        return allElections;
     }
 }
