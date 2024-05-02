@@ -5,6 +5,9 @@ import React from 'react'
 import { useState } from 'react'
 import { DateTimePicker } from '@/components/ui/date-time-picker/date-time-picker'
 import { validate } from '@/scripts/formValidation'
+import { ethers } from "ethers"
+import { useContext } from 'react'
+import userContext from '@/scripts/userContext'
 
 export default function Admin() {
 
@@ -14,7 +17,296 @@ export default function Admin() {
   const [candidates, setCandidates] = useState([])
   const [FormObj, setFormObj] = useState({})
   const [Errors, setErrors] = useState({})
+  const userState = useContext(userContext)
+  // Provider and signer
+  const provider = new ethers.providers.Web3Provider(window.ethereum)
+  const signer = provider.getSigner()
+  
+  const contractAddress = "0x0B306BF915C4d645ff596e518fAf3F9669b97016"
 
+  const ABI = [
+    {
+      "inputs": [],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "id",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "startTime",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "stopTime",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "title",
+          "type": "string"
+        }
+      ],
+      "name": "ElectionCreated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "electionId",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "voter",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "candidateIndex",
+          "type": "uint256"
+        }
+      ],
+      "name": "VoteCast",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "voter",
+          "type": "address"
+        }
+      ],
+      "name": "VoterAdded",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_voter",
+          "type": "address"
+        },
+        {
+          "internalType": "string",
+          "name": "_name",
+          "type": "string"
+        }
+      ],
+      "name": "addToUniqueVoters",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_startTime",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_stopTime",
+          "type": "uint256"
+        },
+        {
+          "internalType": "string[]",
+          "name": "_candidates",
+          "type": "string[]"
+        },
+        {
+          "internalType": "string",
+          "name": "_name",
+          "type": "string"
+        }
+      ],
+      "name": "createElection",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "electionCounter",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "elections",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "id",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "startTime",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "stopTime",
+          "type": "uint256"
+        },
+        {
+          "internalType": "string",
+          "name": "title",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getAllElections",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256[3]",
+              "name": "electionDetails",
+              "type": "uint256[3]"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "string",
+                  "name": "name",
+                  "type": "string"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "voteCount",
+                  "type": "uint256"
+                }
+              ],
+              "internalType": "struct etherballot.Candidate[]",
+              "name": "candidates",
+              "type": "tuple[]"
+            }
+          ],
+          "internalType": "struct etherballot.ElectionReturnValue[]",
+          "name": "",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_voter",
+          "type": "address"
+        }
+      ],
+      "name": "getName",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_electionId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "string",
+          "name": "_voterName",
+          "type": "string"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_candidateIndex",
+          "type": "uint256"
+        }
+      ],
+      "name": "vote",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "voterNameAddress",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ]
+
+
+  const contract = new ethers.Contract(contractAddress,ABI,signer)
 
 
   const SubmitHandler = async (e) => {
@@ -26,12 +318,27 @@ export default function Admin() {
       candidates: candidates,
     }
 
+    // const addVoter = await contract.addToUniqueVoters("0x90F79bf6EB2c4f870365E785982E1f101E93b906","UserTwo", {
+    //   gasPrice: ethers.utils.parseUnits('1000','gwei'),
+    //   gasLimit: 1000000
+    // })
+    // await addVoter.wait()
+    // console.log(addVoter)
+
     const newErrors = await validate(formObj)
     setErrors(newErrors)
+
 
     if (newErrors.errorFree == true){
       setFormObj(formObj)
       console.log(formObj)
+      console.log(userState.user.userAddress)
+      const submitElection = await contract.createElection(formObj.startTime,formObj.endTime,formObj.candidates, {
+        gasPrice: ethers.utils.parseUnits('1000', 'gwei'), 
+        gasLimit: 1000000
+      })
+      await submitElection.wait()
+      console.log(submitElection)
     }
   }
 
