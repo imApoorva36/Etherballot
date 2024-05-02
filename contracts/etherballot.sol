@@ -17,6 +17,7 @@ contract etherballot {
     struct ElectionReturnValue{
         uint256[3] electionDetails;
         Candidate[] candidates;
+        string title;
     }
 
     struct Voter {                      //Voter details
@@ -114,6 +115,7 @@ contract etherballot {
         for (uint256 i = 0; i < electionCounter; i++) {
             allElections[i].electionDetails = [elections[i].id, elections[i].startTime, elections[i].stopTime];
             allElections[i].candidates = elections[i].candidates;
+            allElections[i].title = elections[i].title;
         }
         return allElections;
     }

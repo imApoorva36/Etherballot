@@ -18,7 +18,7 @@ export default function Elections() {
   const provider = new ethers.providers.Web3Provider(window.ethereum)
   const signer = provider.getSigner()
   
-  const contractAddress = "0x0B306BF915C4d645ff596e518fAf3F9669b97016"
+  const contractAddress = "0x68B1D87F95878fE05B998F19b66F4baba5De1aed"
 
   const ABI = [
     {
@@ -215,6 +215,11 @@ export default function Elections() {
               "internalType": "struct etherballot.Candidate[]",
               "name": "candidates",
               "type": "tuple[]"
+            },
+            {
+              "internalType": "string",
+              "name": "title",
+              "type": "string"
             }
           ],
           "internalType": "struct etherballot.ElectionReturnValue[]",
@@ -330,7 +335,7 @@ export default function Elections() {
                 return (
                 <Card key={index} className="m-10">
                   <CardHeader>
-                    <CardTitle className="text-3xl">Election Title Goes Here</CardTitle>
+                    <CardTitle className="text-3xl">{election[2]}</CardTitle>
                   </CardHeader>
                   <CardContent className='flex flex-col gap-4'>
                     <div className='flex flex-col'>

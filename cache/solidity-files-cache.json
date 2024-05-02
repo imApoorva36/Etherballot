@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "/home/shanjiv/ieee/Etherballot/contracts/etherballot.sol": {
-      "lastModificationDate": 1714666986781,
-      "contentHash": "a7a013ea4fb91e3ada725adfd93033e8",
+      "lastModificationDate": 1714667769973,
+      "contentHash": "8df21d00af6d039d949968b804f7572d",
       "sourceName": "contracts/etherballot.sol",
       "solcConfig": {
         "version": "0.8.24",

@@ -22,7 +22,7 @@ export default function Admin() {
   const provider = new ethers.providers.Web3Provider(window.ethereum)
   const signer = provider.getSigner()
   
-  const contractAddress = "0x0B306BF915C4d645ff596e518fAf3F9669b97016"
+  const contractAddress = "0x68B1D87F95878fE05B998F19b66F4baba5De1aed"
 
   const ABI = [
     {
@@ -219,6 +219,11 @@ export default function Admin() {
               "internalType": "struct etherballot.Candidate[]",
               "name": "candidates",
               "type": "tuple[]"
+            },
+            {
+              "internalType": "string",
+              "name": "title",
+              "type": "string"
             }
           ],
           "internalType": "struct etherballot.ElectionReturnValue[]",
@@ -333,10 +338,7 @@ export default function Admin() {
       setFormObj(formObj)
       console.log(formObj)
       console.log(userState.user.userAddress)
-      const submitElection = await contract.createElection(formObj.startTime,formObj.endTime,formObj.candidates, {
-        gasPrice: ethers.utils.parseUnits('1000', 'gwei'), 
-        gasLimit: 1000000
-      })
+      const submitElection = await contract.createElection(formObj.startTime,formObj.endTime,formObj.candidates, formObj.electionTitle)
       await submitElection.wait()
       console.log(submitElection)
     }
