@@ -4,11 +4,24 @@ import { useState } from 'react'
 import logo from '../../assets/logo.svg'
 import { AlertDestructive } from './alert'
 import userContext from '@/scripts/userContext'
+import { Input } from '../ui/input'
 
 export default function Navbar() {
 
     const [error, setError] = useState(false);
     const userState = useContext(userContext)
+    const [isUserNamePresent, setIsUserNamePresent] = useState(false)
+    const [userName, setUserName] = useState("")
+
+    const provider = new ethers.providers.Web3Provider(window.ethereum)
+    const signer = provider.getSigner()
+  
+    const contractAddress = import.meta.env.VITE_CONTRACT_ADDRESS
+
+    const ABI = JSON.parse(import.meta.env.VITE_ABI)
+
+
+    const contract = new ethers.Contract(contractAddress,ABI,signer)
 
 
     const connectMetaMask = async () => {
@@ -37,12 +50,21 @@ export default function Navbar() {
         try {
           const accounts = await provider.request({method: 'eth_requestAccounts'})
           const account = accounts[0]
-          const newUser = {userAddress: account}
+          const newUserName = await contract.getName(account)
+          let newUser;
+          if (newUserName == "") {
+            newUser = {userAddress: account, userName: ""}
+            setIsUserNamePresent(false)
+          }
+          else {
+            newUser = {userAddress:account, userName: newUserName}
+            setIsUserNamePresent(true)
+          }
           userState.setUser(newUser)
           userState.setIsSignedIn(true)
         }
         catch (e) {
-
+          console.log(e)
         }
       }
     }
@@ -50,6 +72,17 @@ export default function Navbar() {
     const SignOut = () => {
       userState.setUser(null)
       userState.setIsSignedIn(false)
+    }
+
+    const registerUser = async () => {
+      if (userName) {
+        const accounts = await provider.send('eth_requestAccounts')
+        const account = accounts[0]
+        const AddUserName = await contract.addToUniqueVoters(account,userName)
+        await AddUserName.wait()
+        console.log(AddUserName)
+        SignIn()
+      }
     }
 
 
@@ -82,7 +115,21 @@ export default function Navbar() {
             {
                 userState.isSignedIn ?
                 <div className='flex items-center gap-2'>
-                    <div>Hello {userState.user.userAddress}</div>
+                    {
+                      isUserNamePresent ? 
+                      <div>
+                        Hello, {userState.user.userName}!
+                      </div>
+                      : 
+                      <div className='flex gap-2'>
+                        <Input placeholder="Enter Name" value={userName} onChange={
+                          (e) => {
+                            setUserName(e.target.value)
+                          }
+                        }/>
+                        <Button onClick={registerUser}>Submit</Button>
+                      </div>
+                    }
                     <Button variant="ghost">Dashboard</Button>
                     <Button onClick={SignOut}>Sign Out</Button>
                 </div>
