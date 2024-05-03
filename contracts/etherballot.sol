@@ -4,11 +4,20 @@ pragma solidity ^0.8.0;
 contract etherballot {
 
     address public owner;               //address of the owner of the contract
-    uint256 public electionCounter;     //election ID which increments by 1 whenever new election is created
+    uint256 public electionCounter;    //election ID which increments by 1 whenever new election is created
+
+
+    
 
     struct Candidate {                  //Candidate details
         string name;
         uint256 voteCount;
+    }
+
+    struct ElectionReturnValue{
+        uint256[3] electionDetails;
+        Candidate[] candidates;
+        string title;
     }
 
     struct Voter {                      //Voter details
@@ -21,6 +30,7 @@ contract etherballot {
         uint256 id;
         uint256 startTime;
         uint256 stopTime;
+        string title;
         Candidate[] candidates;
         mapping(address => bool) voters;
         mapping(address => Voter) voterDetails;
@@ -30,7 +40,7 @@ contract etherballot {
 
     mapping(address => string) public voterNameAddress;         //Mapping of Address to name
 
-    event ElectionCreated(uint256 indexed id, uint256 startTime, uint256 stopTime);
+    event ElectionCreated(uint256 indexed id, uint256 startTime, uint256 stopTime, string title);
     event VoteCast(uint256 indexed electionId, address indexed voter, uint256 candidateIndex);
     event VoterAdded(address indexed voter);
 
@@ -42,11 +52,11 @@ contract etherballot {
 
     constructor() {
         owner = msg.sender;
-        electionCounter = 0;
+        electionCounter = 1;
     }
 
     //Creating new elections
-    function createElection(uint256 _startTime, uint256 _stopTime, string[] memory _candidates) external onlyOwner {
+    function createElection(uint256 _startTime, uint256 _stopTime, string[] memory _candidates, string memory _name) public {
         require(_startTime < _stopTime, "Start time must be before stop time");
 
         ElectionInstance storage newElection = elections[electionCounter];
@@ -54,12 +64,13 @@ contract etherballot {
         newElection.id = electionCounter;
         newElection.startTime = _startTime;
         newElection.stopTime = _stopTime;
+        newElection.title = _name;
 
         for (uint256 i = 0; i < _candidates.length; i++) {
             newElection.candidates.push(Candidate({name: _candidates[i], voteCount: 0}));
         }
 
-        emit ElectionCreated(electionCounter, _startTime, _stopTime);
+        emit ElectionCreated(electionCounter, _startTime, _stopTime, _name);
         electionCounter++;
     }
 
@@ -70,7 +81,7 @@ contract etherballot {
     }
 
     //Adding voters to the mapping of registered voters
-    function addToUniqueVoters(address _voter, string memory _name) external onlyOwner {
+    function addToUniqueVoters(address _voter, string memory _name) public {
         require(!isVoter(_voter), "Voter already present in the unique voters mapping");
         voterNameAddress[_voter]=_name;
         emit VoterAdded(_voter);
@@ -99,10 +110,14 @@ contract etherballot {
     }
 
     //Fetching all elections
-    function getAllElections() public view returns (uint256[3][] memory) {
-        uint256[3][] memory allElections;
+    function getAllElections() public view returns (ElectionReturnValue[] memory) {
+        ElectionReturnValue[] memory allElections = new ElectionReturnValue[](electionCounter);
         for (uint256 i = 0; i < electionCounter; i++) {
-            allElections[i] = [elections[i].id, elections[i].startTime, elections[i].stopTime];
+            if (elections[i].id != 0) {
+                allElections[i].electionDetails = [elections[i].id, elections[i].startTime, elections[i].stopTime];
+                allElections[i].candidates = elections[i].candidates;
+                allElections[i].title = elections[i].title;
+            }
         }
         return allElections;
     }

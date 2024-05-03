@@ -8,10 +8,10 @@ async function main() {
     // Deploy the contract
     const etherBallot = await EtherBallot.deploy();
   
-    await etherBallot.waitForDeployment();
+    await etherBallot.deployed();
   
     // Retrieve and log the contract address
-    console.log("EtherBallot deployed to:", await etherBallot.getAddress());
+    console.log("EtherBallot deployed to:", await etherBallot.address);
   }
   
   // Call main function

@@ -3,20 +3,8 @@ import * as yup from "yup"
 
 let userSchema = yup.object({
     electionTitle: yup.string().required("Election title is required"),
-    startTime: yup.object().shape({
-        year: yup.number(),
-        month: yup.number(),
-        day: yup.number(),
-        hour: yup.number(),
-        minute: yup.number(),
-    }).required("Select a start date"),
-    endTime: yup.object().shape({
-        year: yup.number(),
-        month: yup.number(),
-        day: yup.number(),
-        hour: yup.number(),
-        minute: yup.number(),
-    }).required("Select an End Date"),
+    startTime: yup.number().required("Select a start date"),
+    endTime: yup.number().required("Select an End Date"),
     candidates: yup.array().of(yup.string()).min(1, "Enter atleast one candidate"),
 })
 
