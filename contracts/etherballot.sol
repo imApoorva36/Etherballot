@@ -52,7 +52,7 @@ contract etherballot {
 
     constructor() {
         owner = msg.sender;
-        electionCounter = 0;
+        electionCounter = 1;
     }
 
     //Creating new elections
@@ -113,9 +113,11 @@ contract etherballot {
     function getAllElections() public view returns (ElectionReturnValue[] memory) {
         ElectionReturnValue[] memory allElections = new ElectionReturnValue[](electionCounter);
         for (uint256 i = 0; i < electionCounter; i++) {
-            allElections[i].electionDetails = [elections[i].id, elections[i].startTime, elections[i].stopTime];
-            allElections[i].candidates = elections[i].candidates;
-            allElections[i].title = elections[i].title;
+            if (elections[i].id != 0) {
+                allElections[i].electionDetails = [elections[i].id, elections[i].startTime, elections[i].stopTime];
+                allElections[i].candidates = elections[i].candidates;
+                allElections[i].title = elections[i].title;
+            }
         }
         return allElections;
     }
