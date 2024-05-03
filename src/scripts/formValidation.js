@@ -3,20 +3,8 @@ import * as yup from "yup"
 
 let userSchema = yup.object({
     electionTitle: yup.string().required("Election title is required"),
-    startTime: yup.object().shape({
-        year: yup.number(),
-        month: yup.number(),
-        day: yup.number(),
-        hour: yup.number(),
-        minute: yup.number(),
-    }).required("Select a start date"),
-    endTime: yup.object().shape({
-        year: yup.number(),
-        month: yup.number(),
-        day: yup.number(),
-        hour: yup.number(),
-        minute: yup.number(),
-    }).required("Select an End Date"),
+    startTime: yup.number().required("Select a start date"),
+    endTime: yup.number().required("Select an End Date"),
     candidates: yup.array().of(yup.string()).min(1, "Enter atleast one candidate"),
 })
 
@@ -25,20 +13,19 @@ function checkDate(formObj) {
         throw new Error("Times are required")
     }
 
-    const startTime = new Date(formObj.startTime.year,formObj.startTime.month-1,formObj.startTime.day,formObj.startTime.hour,formObj.startTime.minute)
-    const endTime = new Date(formObj.endTime.year,formObj.endTime.month-1,formObj.endTime.day,formObj.endTime.hour,formObj.endTime.minute)
+
     const date = new Date()
 
-    console.log("Start Time " + startTime)
-        console.log("End time " + endTime)
-        console.log("Curr Date " + date)
+    console.log("Start Time " + formObj.startTime)
+    console.log("End time " + formObj.endTime)
+    console.log("Curr Date " + date.getTime())
 
-    if (startTime > endTime) {
+    if (formObj.startTime > formObj.endTime) {
         
         throw new Error("Start time cannot be after End Time")
     }
 
-    if ((startTime < date) || (endTime < date)) {
+    if ((formObj.startTime < date.getTime()) && (formObj.endTime < date.getTime())) {
         throw new Error("One of the time is before the current time")
     }
 }

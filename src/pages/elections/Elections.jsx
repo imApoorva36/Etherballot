@@ -14,43 +14,60 @@ export default function Elections() {
 
   const [elections, setElections] = useState([])
 
+  // Contract Details
+  const provider = new ethers.providers.Web3Provider(window.ethereum)
+  const signer = provider.getSigner()
+  
+  const contractAddress = import.meta.env.VITE_CONTRACT_ADDRESS
+
+  const ABI = import.meta.env.VITE_ABI
 
 
-  useEffect(() => {
-    async function fetchElections() {
-      const elections = await fetch('http://localhost:4000/elections')
-      const newElections = await elections.json()
-      setElections(newElections)
-    }
+  const contract = new ethers.Contract(contractAddress,ABI,signer)
 
-    fetchElections()
-  },[])
+  async function fetchElections() {
+    const elections = await contract.getAllElections()
+    elections.forEach((election) => {
+      console.log(election)
+    })
+    setElections(elections)
+  }
+
+  
 
   return (
     <div className="flex flex-col items-center m-10 gap-4">
-        <div className="text-4xl">Active Elections</div>
+        <div className="text-4xl flex gap-8">
+          <div>Active Elections</div>
+          <Button onClick={fetchElections}>Refresh</Button>
+        </div>
         <div className='grid grid-cols-3 gap-8 w-full px-20 py-5'>
             {
-              elections.map((election, index) => (
+              elections.map((election, index) => {
+
+                const startTime = new Date(Number(election[0][1]._hex))
+                const endTime = new Date(Number(election[0][2]._hex))
+
+                return (
                 <Card key={index} className="m-10">
                   <CardHeader>
-                    <CardTitle className="text-3xl">{election.electionTitle}</CardTitle>
+                    <CardTitle className="text-3xl">{election[2]}</CardTitle>
                   </CardHeader>
                   <CardContent className='flex flex-col gap-4'>
                     <div className='flex flex-col'>
-                      <Label className="text-2xl">Starts at {election.startTime.day}/{election.startTime.month}/{election.startTime.year}</Label>
-                      <Label className="text-xl">{election.startTime.hour} hrs : {election.startTime.minute} mins</Label>
+                      <Label className="text-2xl">Starts at {startTime.getDay()}/{startTime.getMonth()}/{startTime.getFullYear()}</Label>
+                      <Label className="text-xl">{startTime.getHours()} hrs : {startTime.getMinutes()} mins</Label>
                     </div>
                     <div className='flex flex-col'>
-                      <Label className="text-2xl">Ends at {election.endTime.day}/{election.endTime.month}/{election.endTime.year}</Label>
-                      <Label className="text-xl">{election.endTime.hour} hrs : {election.endTime.minute} mins</Label>
+                      <Label className="text-2xl">Starts at {endTime.getDay()}/{endTime.getMonth()}/{endTime.getFullYear()}</Label>
+                      <Label className="text-xl">{endTime.getHours()} hrs : {endTime.getMinutes()} mins</Label>
                     </div>  
                   </CardContent>
                   <CardFooter>
                     <Button>View More</Button>
                   </CardFooter>
                 </Card>
-              ))
+              )})
             }
         </div>
     </div>

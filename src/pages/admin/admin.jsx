@@ -5,6 +5,9 @@ import React from 'react'
 import { useState } from 'react'
 import { DateTimePicker } from '@/components/ui/date-time-picker/date-time-picker'
 import { validate } from '@/scripts/formValidation'
+import { ethers } from "ethers"
+import { useContext } from 'react'
+import userContext from '@/scripts/userContext'
 
 export default function Admin() {
 
@@ -14,7 +17,17 @@ export default function Admin() {
   const [candidates, setCandidates] = useState([])
   const [FormObj, setFormObj] = useState({})
   const [Errors, setErrors] = useState({})
+  const userState = useContext(userContext)
+  // Provider and signer
+  const provider = new ethers.providers.Web3Provider(window.ethereum)
+  const signer = provider.getSigner()
+  
+  const contractAddress = import.meta.env.VITE_CONTRACT_ADDRESS
 
+  const ABI = JSON.parse(import.meta.env.VITE_ABI)
+
+
+  const contract = new ethers.Contract(contractAddress,ABI,signer)
 
 
   const SubmitHandler = async (e) => {
@@ -26,12 +39,24 @@ export default function Admin() {
       candidates: candidates,
     }
 
+    // const addVoter = await contract.addToUniqueVoters("0x90F79bf6EB2c4f870365E785982E1f101E93b906","UserTwo", {
+    //   gasPrice: ethers.utils.parseUnits('1000','gwei'),
+    //   gasLimit: 1000000
+    // })
+    // await addVoter.wait()
+    // console.log(addVoter)
+
     const newErrors = await validate(formObj)
     setErrors(newErrors)
+
 
     if (newErrors.errorFree == true){
       setFormObj(formObj)
       console.log(formObj)
+      console.log(userState.user.userAddress)
+      const submitElection = await contract.createElection(formObj.startTime,formObj.endTime,formObj.candidates, formObj.electionTitle)
+      await submitElection.wait()
+      console.log(submitElection)
     }
   }
 
@@ -74,15 +99,9 @@ export default function Admin() {
               <Label className="text-2xl">Start Date</Label>
               <DateTimePicker id="startTime" onChange={
                 (obj) => {
-                  const newTime = {
-                    "day" : obj.day,
-                    "month" : obj.month,
-                    "year" : obj.year,
-                    "hour" : obj.hour,
-                    "minute": obj.minute
-                  }
-
-                  setStartTime(newTime)
+                  const newTime = new Date(obj.year,obj.month-1,obj.day,obj.hour,obj.minute)
+                  const newTimeEpoch = newTime.getTime()
+                  setStartTime(newTimeEpoch)
                 }
               } granularity={"minute"}/>
             </div>
@@ -91,15 +110,9 @@ export default function Admin() {
               <Label className="text-2xl">End Time</Label>
               <DateTimePicker id="endTime" onChange={
                 (obj) => {
-                  const newTime = {
-                    "day" : obj.day,
-                    "month" : obj.month,
-                    "year" : obj.year,
-                    "hour" : obj.hour,
-                    "minute": obj.minute
-                  }
-
-                  setEndTime(newTime)
+                  const newTime = new Date(obj.year,obj.month-1,obj.day,obj.hour,obj.minute)
+                  const newTimeEpoch = newTime.getTime()
+                  setEndTime(newTimeEpoch)
                 }
               } granularity={"minute"}/>
               <Label className="text-red-700">{Errors.date?.toString()}</Label>
