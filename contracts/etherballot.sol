@@ -104,6 +104,18 @@ contract etherballot {
         emit VoteCast(_electionId, msg.sender, _candidateIndex);
     }
 
+    // Check if the user already voted
+    function checkIfVoted(address _voterAddress, uint256 _electionId) public view returns (bool) {
+
+        bool returnValue = false;
+
+        if (elections[_electionId].voters[_voterAddress] == true) {
+            returnValue = true;
+        }
+
+        return returnValue;
+    }
+
     //Fetching name associated with the voter
     function getName(address _voter) public view returns (string memory) {
         return voterNameAddress[_voter];
@@ -112,7 +124,7 @@ contract etherballot {
     //Fetching all elections
     function getAllElections() public view returns (ElectionReturnValue[] memory) {
         ElectionReturnValue[] memory allElections = new ElectionReturnValue[](electionCounter);
-        for (uint256 i = 0; i < electionCounter; i++) {
+        for (uint256 i = 1; i < electionCounter; i++) {
             if (elections[i].id != 0) {
                 allElections[i].electionDetails = [elections[i].id, elections[i].startTime, elections[i].stopTime];
                 allElections[i].candidates = elections[i].candidates;
@@ -120,5 +132,17 @@ contract etherballot {
             }
         }
         return allElections;
+    }
+
+    function getElectionById(uint256 _electionId) public view returns (ElectionReturnValue memory) {
+        ElectionReturnValue memory election;
+        for (uint256 i = 1; i < electionCounter; i++) {
+            if (elections[i].id == _electionId ) {
+                election.electionDetails = [elections[i].id, elections[i].startTime, elections[i].stopTime];
+                election.candidates = elections[i].candidates;
+                election.title = elections[i].title;
+            }
+        }
+        return election;
     }
 }
