@@ -16,7 +16,7 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/elections/create" element={<Admin/>} />
-        <Route path="/elections/view" element={<Elections/>} />
+        <Route path="/dashboard" element={<Elections/>} />
         <Route path="/elections/vote/:electionId" element={<Vote />}/>
       </Routes>
     </>
