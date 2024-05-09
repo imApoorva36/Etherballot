@@ -54,7 +54,7 @@ export default function Admin() {
       setFormObj(formObj)
       console.log(formObj)
       console.log(userState.user.userAddress)
-      const submitElection = await contract.createElection(formObj.startTime,formObj.endTime,formObj.candidates, formObj.electionTitle)
+      const submitElection = await contract.createElection(formObj.startTime/1000,formObj.endTime/1000,formObj.candidates, formObj.electionTitle)
       await submitElection.wait()
       console.log(submitElection)
     }

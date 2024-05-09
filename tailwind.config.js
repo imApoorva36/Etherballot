@@ -19,6 +19,7 @@ module.exports = {
     fontFamily : {
       mono : ["Reddit Mono", "sans-serif"],
       noto : ["Noto Sans", "sans-serif"],
+      anek: ["Anek", "sans-serif"]
     },
     extend: {
       colors: {

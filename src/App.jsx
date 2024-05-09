@@ -5,6 +5,7 @@ import Navbar from './components/navbar/Navbar'
 import {Route, Routes} from 'react-router-dom'
 import Admin from './pages/admin/admin'
 import Elections from './pages/elections/Elections'
+import Vote from './pages/vote/Vote'
 
 function App() {
 
@@ -14,8 +15,9 @@ function App() {
     <>
       <Navbar />
       <Routes>
-        <Route path="/admin" element={<Admin/>} />
-        <Route path="/elections" element={<Elections/>} />
+        <Route path="/elections/create" element={<Admin/>} />
+        <Route path="/dashboard" element={<Elections/>} />
+        <Route path="/elections/vote/:electionId" element={<Vote />}/>
       </Routes>
     </>
   )

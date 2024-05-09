@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/card"
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
+import { Link } from 'react-router-dom'
 
 export default function Elections() {
 
@@ -27,13 +28,12 @@ export default function Elections() {
 
   async function fetchElections() {
     const elections = await contract.getAllElections()
-    elections.forEach((election) => {
-      console.log(election)
-    })
     setElections(elections)
   }
 
-  
+  useEffect(()=>{
+    fetchElections()
+  },[])
 
   return (
     <div className="flex flex-col items-center m-10 gap-4">
@@ -45,29 +45,34 @@ export default function Elections() {
             {
               elections.map((election, index) => {
 
-                const startTime = new Date(Number(election[0][1]._hex))
-                const endTime = new Date(Number(election[0][2]._hex))
+                const startTime = new Date(Number(election[0][1]._hex)*1000)
+                const endTime = new Date(Number(election[0][2]._hex)*1000)
+                const currTime = new Date()
+
 
                 return (
-                <Card key={index} className="m-10">
-                  <CardHeader>
-                    <CardTitle className="text-3xl">{election[2]}</CardTitle>
-                  </CardHeader>
-                  <CardContent className='flex flex-col gap-4'>
-                    <div className='flex flex-col'>
-                      <Label className="text-2xl">Starts at {startTime.getDay()}/{startTime.getMonth()}/{startTime.getFullYear()}</Label>
-                      <Label className="text-xl">{startTime.getHours()} hrs : {startTime.getMinutes()} mins</Label>
-                    </div>
-                    <div className='flex flex-col'>
-                      <Label className="text-2xl">Starts at {endTime.getDay()}/{endTime.getMonth()}/{endTime.getFullYear()}</Label>
-                      <Label className="text-xl">{endTime.getHours()} hrs : {endTime.getMinutes()} mins</Label>
-                    </div>  
-                  </CardContent>
-                  <CardFooter>
-                    <Button>View More</Button>
-                  </CardFooter>
-                </Card>
-              )})
+                  (currTime <= endTime && currTime >=startTime) ?
+                  <Card key={index} className="m-10">
+                    <CardHeader>
+                      <CardTitle className="text-3xl">{election[2]}</CardTitle>
+                    </CardHeader>
+                    <CardContent className='flex flex-col gap-4'>
+                      <div className='flex flex-col'>
+                        <Label className="text-2xl">Starts at {startTime.getDate()}/{startTime.getMonth()}/{startTime.getFullYear()}</Label>
+                        <Label className="text-xl">{startTime.getHours()} hrs : {startTime.getMinutes()} mins</Label>
+                      </div>
+                      <div className='flex flex-col'>
+                        <Label className="text-2xl">Ends at {endTime.getDate()}/{endTime.getMonth()}/{endTime.getFullYear()}</Label>
+                        <Label className="text-xl">{endTime.getHours()} hrs : {endTime.getMinutes()} mins</Label>
+                      </div>  
+                    </CardContent>
+                    <CardFooter>
+                      <Link to={"/elections/vote/"+Number(election[0][0]._hex)}><Button>View More</Button></Link>
+                    </CardFooter>
+                  </Card>
+                  : <></>
+                )
+              })
             }
         </div>
     </div>

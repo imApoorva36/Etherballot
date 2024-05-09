@@ -74,6 +74,11 @@ export default function Navbar() {
       userState.setIsSignedIn(false)
     }
 
+
+    useEffect(() => {
+      SignIn()
+    },[])
+
     const registerUser = async () => {
       if (userName) {
         const accounts = await provider.send('eth_requestAccounts')
@@ -97,7 +102,7 @@ export default function Navbar() {
           <div> 
             <img src={logo} alt="EtherBallot Logo" />
           </div>
-          <div className='text-4xl font-mono'>
+          <div className='text-4xl font-anek'>
             EtherBallot
           </div>
         </div>
