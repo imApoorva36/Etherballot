@@ -103,7 +103,7 @@ export default function Navbar() {
           <div> 
             <img src={logo} alt="EtherBallot Logo" />
           </div>
-          <div className='text-4xl font-mono'>
+          <div className='text-4xl font-poppins font-bold'>
             <Link to="/">EtherBallot</Link>
           </div>
         </div>
