@@ -103,8 +103,8 @@ export default function Navbar() {
           <div> 
             <img src={logo} alt="EtherBallot Logo" />
           </div>
-          <div className='text-4xl font-anek'>
-            EtherBallot
+          <div className='text-4xl font-mono'>
+            <Link to="/">EtherBallot</Link>
           </div>
         </div>
         <div className='flex justify-between gap-8'>

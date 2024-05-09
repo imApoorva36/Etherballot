@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import {
   Card,
   CardContent,
@@ -10,8 +10,11 @@ import {
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
 import { Link } from 'react-router-dom'
+import userContext from '@/scripts/userContext'
 
 export default function Elections() {
+
+  const userState = useContext(userContext)
 
   const [elections, setElections] = useState([])
 
@@ -41,6 +44,10 @@ export default function Elections() {
           <div>Active Elections</div>
           <Button onClick={fetchElections}>Refresh</Button>
         </div>
+        {
+        (userState.user.userName == "" || userState.user.userName == null) ? 
+        <div className="text-4xl p-20 text-red-700 m-20">Please enter a name to view elections</div>
+        :
         <div className='grid grid-cols-3 gap-8 w-full px-20 py-5'>
             {
               elections.map((election, index) => {
@@ -75,6 +82,7 @@ export default function Elections() {
               })
             }
         </div>
+        }
     </div>
   )
 }
