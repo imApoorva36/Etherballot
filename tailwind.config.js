@@ -1,3 +1,5 @@
+const internal = require('stream');
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ["class"],
@@ -19,7 +21,10 @@ module.exports = {
     fontFamily : {
       mono : ["Reddit Mono", "sans-serif"],
       noto : ["Noto Sans", "sans-serif"],
-      anek: ["Anek", "sans-serif"]
+      anek: ["Anek", "sans-serif"],
+      poppins: ["Poppins", "sans-serif"],
+      inter: ["Inter", "sans-serif"],
+      jarkata: ["Plus Jarkarta Sans", "sans-serif"],
     },
     extend: {
       colors: {

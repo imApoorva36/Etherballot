@@ -5,6 +5,7 @@ import logo from '../../assets/logo.svg'
 import { AlertDestructive } from './alert'
 import userContext from '@/scripts/userContext'
 import { Input } from '../ui/input'
+import { Link } from 'react-router-dom'
 
 export default function Navbar() {
 
@@ -102,8 +103,8 @@ export default function Navbar() {
           <div> 
             <img src={logo} alt="EtherBallot Logo" />
           </div>
-          <div className='text-4xl font-anek'>
-            EtherBallot
+          <div className='text-4xl font-poppins font-bold'>
+            <Link to="/">EtherBallot</Link>
           </div>
         </div>
         <div className='flex justify-between gap-8'>
@@ -135,7 +136,7 @@ export default function Navbar() {
                         <Button onClick={registerUser}>Submit</Button>
                       </div>
                     }
-                    <Button variant="ghost">Dashboard</Button>
+                    <Link to="/dashboard"><Button variant="ghost">Dashboard</Button></Link>
                     <Button onClick={SignOut}>Sign Out</Button>
                 </div>
                 :
