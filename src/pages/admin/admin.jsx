@@ -8,8 +8,11 @@ import { validate } from '@/scripts/formValidation'
 import { ethers } from "ethers"
 import { useContext } from 'react'
 import userContext from '@/scripts/userContext'
+import { useNavigate } from 'react-router-dom'
 
 export default function Admin() {
+
+  const navigate = useNavigate()
 
   const [electionTitle, setElectionTitle] = useState('')
   const [startTime, setStartTime] = useState()
@@ -56,7 +59,7 @@ export default function Admin() {
       console.log(userState.user.userAddress)
       const submitElection = await contract.createElection(formObj.startTime/1000,formObj.endTime/1000,formObj.candidates, formObj.electionTitle)
       await submitElection.wait()
-      console.log(submitElection)
+      navigate('/dashboard')
     }
   }
 
